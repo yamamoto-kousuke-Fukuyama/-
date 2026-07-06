@@ -43,11 +43,11 @@ public class Player : MonoBehaviour
         Walk();
         Jump();
 
-        //画面外に落ちたらリスタート
+
+        //画面外に落ちたらゲームオーバー
         if (transform.position.y < -9f)
         {
-            SceneManager.LoadScene(
-                SceneManager.GetActiveScene().name);
+            GameOver();
         }
     }
 
@@ -115,15 +115,22 @@ public class Player : MonoBehaviour
     //ブロック破壊処理
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Blockタグのブロックか確認
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            GameOver();
+        }
+
+
+        //ブロック破壊処理
         if (collision.gameObject.CompareTag("Block"))
         {
             foreach (ContactPoint2D point in collision.contacts)
             {
-                // プレイヤーが下からブロックに当たった場合
-                if(point.normal.y < -0.5f)
+                //プレイヤーが下からブロックに当たった場合
+                if (point.normal.y < -0.5f)
                 {
-                    BreakBlock block = collision.gameObject.GetComponent<BreakBlock>();
+                    BreakBlock block =
+                        collision.gameObject.GetComponent<BreakBlock>();
 
                     if (block != null)
                     {
@@ -132,5 +139,38 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    //ゲームオーバー処理
+    private void GameOver()
+    {
+        //現在のステージを保存
+        PlayerPrefs.SetString(
+            "CurrentStage",
+            SceneManager.GetActiveScene().name
+        );
+
+
+        //死亡回数を取得
+        int count =
+            PlayerPrefs.GetInt("DeathCount", 0);
+
+
+        //死亡回数を増やす
+        count++;
+
+
+        //保存
+        PlayerPrefs.SetInt(
+            "DeathCount",
+            count
+        );
+
+        PlayerPrefs.Save();
+
+
+        //ゲームオーバーシーンへ
+        SceneManager.LoadScene("Over");
     }
 }
