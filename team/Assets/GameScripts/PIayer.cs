@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         {
             isGround = false;
         }
-
+        Debug.Log("isGround = " + isGround); // Å© Ç±ÇÃ1çsÇí«â¡
 
         if ((Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.Space))
