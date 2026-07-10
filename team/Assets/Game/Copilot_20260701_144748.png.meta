@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Copilot_20260701_144748_0: -8976756006157691065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

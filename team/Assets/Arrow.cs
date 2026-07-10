@@ -20,12 +20,12 @@ public class Arrow : MonoBehaviour
             GameObject arrow = Instantiate
                 (
                 arrowPrefab,
-                transform.position + new Vector3(i*-100f,-5,0),
+                transform.position + new Vector3(70+i*3f,-5,0),
                 Quaternion.Euler(0, 0, -90)
                 );
 
             Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = Vector2.up * 15f;
+            rb.linearVelocity = Vector2.up * 50f;
         }
     }
 }

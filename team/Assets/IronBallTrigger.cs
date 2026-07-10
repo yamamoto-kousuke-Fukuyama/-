@@ -12,7 +12,7 @@ public class IronBallTrigger:MonoBehaviour
         {
             dropped = true;
 
-            ironBall.gravityScale = 20;
+            ironBall.gravityScale = 70;
         }
     }
 

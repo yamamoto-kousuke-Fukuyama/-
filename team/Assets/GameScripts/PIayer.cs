@@ -115,6 +115,11 @@ public class Player : MonoBehaviour
     //ƒuƒƒbƒN”j‰óˆ—
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("IronBall"))
+        {
+            Destroy(gameObject);
+        }
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             GameOver();
@@ -174,3 +179,4 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene("Over");
     }
 }
+
