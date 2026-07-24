@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     //ジャンプ
     [SerializeField] private float jumpForce = 15.0f;
 
+    //ジャンプSE
+    [SerializeField] private AudioClip jumpSE;
+    private AudioSource audioSource;
+
     //プレイヤーの足元オブジェクト
     [SerializeField] private Transform GroundCheker;
 
@@ -28,29 +32,34 @@ public class Player : MonoBehaviour
     private Animator _anim;
     private SpriteRenderer sr;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         _anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-    }
 
+        //AudioSourceを取得
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
         Walk();
         Jump();
 
-
         //画面外に落ちたらゲームオーバー
         if (transform.position.y < -9f)
         {
             GameOver();
         }
-    }
 
+        //画面の上に行き過ぎるとゲームオーバー
+        if (transform.position.y > 100f)
+        {
+            GameOver();
+        }
+    }
 
     //移動
     private void Walk()
@@ -61,7 +70,6 @@ public class Player : MonoBehaviour
 
         _anim.SetBool("isWalk", direction != 0);
 
-
         if (direction > 0)
         {
             sr.flipX = false;
@@ -71,7 +79,6 @@ public class Player : MonoBehaviour
             sr.flipX = true;
         }
     }
-
 
     //ジャンプ
     private void Jump()
@@ -87,19 +94,22 @@ public class Player : MonoBehaviour
         {
             isGround = false;
         }
-        Debug.Log("isGround = " + isGround); // ← この1行を追加
+
+        Debug.Log("isGround = " + isGround);
 
         if ((Input.GetKeyDown(KeyCode.W) ||
-            Input.GetKeyDown(KeyCode.Space))
-            && isGround == true)
+             Input.GetKeyDown(KeyCode.Space))
+            && isGround)
         {
             rb.AddForce(
                 Vector2.up * jumpForce,
                 ForceMode2D.Impulse);
 
+            //ジャンプSEを再生
+            audioSource.PlayOneShot(jumpSE);
+
             _anim.SetBool("isJump", true);
         }
-
 
         if (isGround)
         {
@@ -110,7 +120,6 @@ public class Player : MonoBehaviour
             _anim.SetBool("isJump", true);
         }
     }
-
 
     //ブロック破壊処理
     private void OnCollisionEnter2D(Collision2D collision)
@@ -124,7 +133,6 @@ public class Player : MonoBehaviour
         {
             GameOver();
         }
-
 
         //ブロック破壊処理
         if (collision.gameObject.CompareTag("Block"))
@@ -146,7 +154,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     //ゲームオーバー処理
     private void GameOver()
     {
@@ -156,15 +163,12 @@ public class Player : MonoBehaviour
             SceneManager.GetActiveScene().name
         );
 
-
         //死亡回数を取得
         int count =
             PlayerPrefs.GetInt("DeathCount", 0);
 
-
         //死亡回数を増やす
         count++;
-
 
         //保存
         PlayerPrefs.SetInt(
@@ -174,9 +178,7 @@ public class Player : MonoBehaviour
 
         PlayerPrefs.Save();
 
-
         //ゲームオーバーシーンへ
         SceneManager.LoadScene("Over");
     }
 }
-
