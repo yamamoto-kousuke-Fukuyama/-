@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: "Assets/\u30A2\u30AF\u30B7\u30E7\u30F32.unity"
     guid: 6a0ae10fbc81e3a40a3cf79cf24d392b
   - enabled: 1
+    path: Assets/Gazou/Prefabs/Jumpscare.unity
+    guid: 855107a2dd2a1bd42ab51750d66fdcc1
+  - enabled: 1
     path: Assets/Scenes/GameClear.unity
     guid: fa379c33e6d4c9c45a130bde4f110f8b
   m_configObjects:
